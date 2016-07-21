@@ -1,20 +1,31 @@
 print "Enter a string to encode: "
-string_to_encrypt = gets.chomp
+string_to_encrypt = gets.chomp.split("")
 print "Enter a shift factor (an integer): "
 shift_factor = gets.chomp.to_i
 
 def caesar_cipher (string, shift)
-  string_ints = Array.new
-  string.each_char { |chr|
-    chr = chr.ord
-    string_ints.push(chr)
+  string.each { |char|
+    # Change uppercases
+    if char.match(/[A-Z]/)
+      # Keep in A-Z range
+      if (char.ord + shift) > 90
+        print (char.ord + shift - 26).chr
+      else
+        print (char.ord + shift).chr
+      end
+    # Change lowercases
+    elsif char.match(/[a-z]/)
+      # Keep in a-z range
+      if (char.ord + shift) > 122
+        print (char.ord + shift - 26).chr
+      else
+        print (char.ord + shift).chr
+      end
+    else
+      # Print other characters (spaces, punctuation) as is
+      print char
+    end
   }
-  string_ints.map! { |i|
-    i == 32 ? i : i + shift
-  }
-  string_enc = string_ints.map { |i| i.chr}
-  print "Encrypted string: "
-  string_enc.each {|chr| print chr}
   puts
 end
 
